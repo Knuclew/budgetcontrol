@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import '../providers/budget_provider.dart';
 import '../widgets/transaction_dialog.dart';
 import '../widgets/pdf_preview.dart';
+import '../widgets/settings_dialog.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -22,6 +23,18 @@ class HomeScreen extends StatelessWidget {
         return Scaffold(
           appBar: AppBar(
             title: const Text('Bütçe Yöneticisi'),
+            leading: IconButton(
+              icon: Icon(
+                Icons.settings,
+                size: isSmallScreen ? 24 : 28,
+              ),
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (context) => const SettingsDialog(),
+                );
+              },
+            ),
             actions: [
               IconButton(
                 icon: Icon(

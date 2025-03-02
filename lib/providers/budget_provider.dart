@@ -292,6 +292,38 @@ class BudgetProvider with ChangeNotifier {
       );
     }
   }
+
+  void reorderCategories(int oldIndex, int newIndex) {
+    if (oldIndex < newIndex) {
+      newIndex -= 1;
+    }
+    final List<String> categoriesList = categories;
+    final String item = categoriesList.removeAt(oldIndex);
+    categoriesList.insert(newIndex, item);
+
+    // Yeni sıralamaya göre Map'i güncelle
+    final Map<String, CategoryData> newCategoryData = {};
+    for (var category in categoriesList) {
+      newCategoryData[category] = _categoryData[category]!;
+    }
+    _categoryData.clear();
+    _categoryData.addAll(newCategoryData);
+    
+    _saveData();
+    notifyListeners();
+  }
+
+  void deleteCategory(String category) {
+    if (category == 'Genel') return; // Genel kategori silinemez
+    if (_categoryData.containsKey(category)) {
+      _categoryData.remove(category);
+      if (_selectedCategory == category) {
+        _selectedCategory = 'Genel';
+      }
+      _saveData();
+      notifyListeners();
+    }
+  }
 }
 
 class CategoryData {
